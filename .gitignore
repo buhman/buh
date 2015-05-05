@@ -1,0 +1,55 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# cruft
+*.swp
+*~
+\#*\#
+.\#*
+
+# binary
+prc
+a.out
+
+# automake
+
+Makefile.in
+Makefile
+
+# autocruft
+
+autom4te.cache
+aclocal.m4
+compile
+configure
+depcomp
+install-sh
+missing
+config.guess
+config.h
+config.h.in
+config.log
+config.status
+config.sub
+config.cache
+db
+libtool
+ltmain.sh
+m4
+stamp-h1
+
+# dots
+.*
+!/.gitignore
+version.h
