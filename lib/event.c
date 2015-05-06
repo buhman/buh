@@ -5,6 +5,19 @@
 #include "buh.h"
 #include "event.h"
 
+/**
+ * @addtogroup event
+ * @{
+ */
+
+/**
+ * Create new event for socket
+ * @param efd epoll file descriptor
+ * @param sfd socket file descriptor
+ * @param events epoll events
+ * @param oeh return event handler
+ * @returns nonzero on failure
+ */
 int
 buh_event_add(int efd, int sfd, uint32_t events,
               event_handler **oeh)
@@ -32,6 +45,11 @@ buh_event_add(int efd, int sfd, uint32_t events,
   return 0;
 }
 
+/**
+ * iterate through pending events, calling the event handler
+ * @param efd epoll file descriptor
+ * @returns nonzero on failure
+ */
 int
 buh_event_iter(int efd) {
   int ret, nfds;

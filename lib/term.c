@@ -5,6 +5,15 @@
 #include "buh.h"
 #include "term.h"
 
+/**
+ * @ingroup term
+ * @{
+ */
+
+/**
+ * Sets O_NONBLOCK on STDIN_FILENO
+ * @returns nonzero on failure
+ */
 int
 buh_term_nonblock(void)
 {
@@ -21,6 +30,10 @@ buh_term_nonblock(void)
   return 0;
 }
 
+/**
+ * Sets canonical mode and removes input echo
+ * @returns nonzero on failure
+ */
 int
 buh_term_setup(void)
 {

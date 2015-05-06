@@ -2,6 +2,13 @@
 
 #include "event.h"
 
+/**
+ * @defgroup net net
+ * @brief evented networking helpers
+ * @addtogroup net
+ * @{
+ */
+
 int
 buh_accept(int efd, int afd,
            event_handler **eh);

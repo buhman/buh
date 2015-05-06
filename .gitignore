@@ -53,3 +53,7 @@ stamp-h1
 .*
 !/.gitignore
 version.h
+
+# doxygen
+doc/*
+!doc/Doxyfile

@@ -16,6 +16,19 @@
 #include "net.h"
 #include "event.h"
 
+/**
+ * @ingroup net
+ * @{
+ */
+
+/**
+ * Accept all pending connections, creating a new event handler for
+ * each connection
+ * @param efd epoll file descriptor
+ * @param afd accept/listen file descriptor
+ * @param eh return event handler
+ * @returns nonzero on failure
+ */
 int
 buh_accept(int efd, int afd,
            event_handler **eh)
@@ -61,6 +74,13 @@ lbind(int efd, int sfd, struct sockaddr *sa, socklen_t sa_len,
   return 0;
 }
 
+/**
+ * Bind a new listening inet socket
+ * @param efd epoll file descriptor
+ * @param port inet port number to listen on
+ * @param eh return event handler
+ * @returns nonzero on failure
+ */
 int
 buh_bind_inet(int efd, unsigned short port,
               event_handler **eh)
@@ -87,6 +107,13 @@ buh_bind_inet(int efd, unsigned short port,
   return sfd;
 }
 
+/**
+ * Bind a new listening unix socket
+ * @param efd epoll file descriptor
+ * @param path socket path
+ * @param eh return event handler
+ * @returns nonzero on failure
+ */
 int
 buh_bind_unix(int efd, const char *path,
               event_handler **eh)
@@ -111,6 +138,13 @@ buh_bind_unix(int efd, const char *path,
 
 /* connect */
 
+/**
+ * Connect new socket to existing unix socket
+ * @param efd epoll file descriptor
+ * @param path socket path
+ * @param eh return event handler
+ * @returns nonzero on failure
+ */
 int
 buh_connect_unix(int efd, const char *path,
                  event_handler **eh)
@@ -137,6 +171,14 @@ buh_connect_unix(int efd, const char *path,
   return sfd;
 }
 
+/**
+ * Connect new socket to existing inet socket
+ * @param efd epoll file descriptor
+ * @param node internet host
+ * @param service internet service
+ * @param eh return event handler
+ * @returns nonzero on failure
+ */
 int
 buh_connect_inet(int efd, const char *node, const char *service,
                  event_handler **eh)
