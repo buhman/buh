@@ -1,9 +1,12 @@
 #include <sys/epoll.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
-#include "buh.h"
-#include "event.h"
+#include <buh/buh.h>
+#include <buh/vector.h>
+#include <buh/net/event.h>
+#include <buh/net/handler.h>
 
 /**
  * @addtogroup event
@@ -24,16 +27,15 @@ buh_event_add(int efd, int sfd, uint32_t events,
 {
   int ret;
   event_handler *eh;
-  struct epoll_event ev;
 
   eh = calloc(1, sizeof(event_handler));
   eh->efd = efd;
   eh->sfd = sfd;
 
-  ev.events = events;
-  ev.data.ptr = eh;
+  eh->ev.events = events;
+  eh->ev.data.ptr = eh;
 
-  ret = epoll_ctl(efd, EPOLL_CTL_ADD, sfd, &ev);
+  ret = epoll_ctl(efd, EPOLL_CTL_ADD, sfd, &eh->ev);
   if (ret < 0) {
     free(eh);
     perror("epoll_ctl");
@@ -65,19 +67,29 @@ buh_event_iter(int efd) {
     eh = evi->data.ptr;
 
     if (evi->events & EPOLLIN) {
-      ret = eh->rh(eh);
 
-      // fixme: remote disconnect
-
+      if (eh->in.handler)
+        ret = eh->in.handler(eh);
+      else
+        ret = buh_net_recv(eh);
       if (ret < 0)
-        herror("eh->rh");
+        herror("buh_net_recv");
     }
     if (evi->events & EPOLLOUT) {
-      ret = eh->wh(eh);
+
+      ret = buh_net_send(eh);
       if (ret < 0)
-        herror("eh->rh");
+        herror("buh_net_send");
     }
   }
 
   return 0;
+}
+
+void
+buh_event_close(event_handler *eh)
+{
+  vec_flush(&eh->out.queue);
+  close(eh->sfd);
+  free(eh);
 }
