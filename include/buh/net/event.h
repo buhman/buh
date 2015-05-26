@@ -17,6 +17,14 @@ typedef int (event_handler_fptr)(event_handler*);
 
 typedef int (event_callback_fptr)(event_handler*, void *buf, size_t len);
 
+typedef struct buf {
+  void *ptr;
+  size_t size;
+} buf_t;
+
+/* vec_buf_t */
+vec_declare(buf_t, buf);
+
 /** generic event handler structure */
 typedef struct event_handler {
   struct epoll_event ev;
@@ -31,7 +39,7 @@ typedef struct event_handler {
   } in;
   /** write */
   struct {
-    vector_t queue;
+    vec_buf_t queue;
   } out;
   /** data pointer */
   void *ptr;

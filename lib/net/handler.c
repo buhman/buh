@@ -32,7 +32,7 @@ buh_net_recv(event_handler *eh)
       return 0;
     }
 
-    fprintf(stderr, "recv: %lld\n", len);
+    fprintf(stderr, "recv: %zd\n", len);
     ret = eh->in.recv(eh, buf, len);
     if (ret < 0) /* FIXME */
       return -1;
@@ -44,27 +44,26 @@ buh_net_recv(event_handler *eh)
 int
 buh_net_send(event_handler *eh)
 {
-  vector_item_t *item;
+  buf_t *buf;
   size_t index;
   ssize_t ret;
 
-  for (index = 0; index < eh->out.queue.size; ++index) {
+  vec_foreach(index, buf, eh->out.queue) {
 
-    item = eh->out.queue.items + index;
-    ret = send(eh->sfd, item->buf, item->size, 0);
-    fprintf(stderr, "send: %lld\n", item->size);
+    ret = send(eh->sfd, buf->ptr, buf->size, 0);
+    fprintf(stderr, "send: %zd\n", buf->size);
     if (ret < 0) {
       if (errno == EAGAIN || errno == EWOULDBLOCK) {
-        vec_slide(&eh->out.queue, index);
+        vec_buf_slide(&eh->out.queue, index);
         return 0;
       }
       herror("send");
     }
 
-    free(item->buf);
+    free(buf->ptr);
   }
 
-  eh->out.queue.index = 0;
+  eh->out.queue.count = 0;
 
   if (!(eh->ev.events & EPOLLOUT))
     return 0;

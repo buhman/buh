@@ -7,14 +7,15 @@
 #include <buh/net/queue.h>
 
 int
-buh_net_queue_send(event_handler *eh, void *buf, size_t size)
+buh_net_queue_send(event_handler *eh, void *ptr, size_t size)
 {
   int ret;
-  char *ptr;
+  buf_t *buf;
 
-  ptr = malloc(size);
-  memcpy(ptr, buf, size);
-  vec_push(&eh->out.queue, ptr, size);
+  buf = vec_buf_push(&eh->out.queue);
+  buf->ptr = malloc(size);
+  buf->size = size;
+  memcpy(buf->ptr, ptr, buf->size);
 
   if (eh->ev.events & EPOLLOUT)
     return 0;

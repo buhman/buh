@@ -8,6 +8,8 @@
 #include <buh/net/event.h>
 #include <buh/net/handler.h>
 
+vec_define(buf_t, buf);
+
 /**
  * @addtogroup event
  * @{
@@ -89,7 +91,7 @@ buh_event_iter(int efd) {
 void
 buh_event_close(event_handler *eh)
 {
-  vec_flush(&eh->out.queue);
+  /*vec_flush(&eh->out.queue);*/
   close(eh->sfd);
   free(eh);
 }
