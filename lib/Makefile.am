@@ -10,4 +10,5 @@ libbuh_la_SOURCES = \
 	net/handler.h net/handler.c \
 	net/queue.h net/queue.c \
 	vector.h \
-	term.h term.c
+	term.h term.c \
+	hash.c hash.h

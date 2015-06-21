@@ -28,6 +28,8 @@ buh_net_recv(event_handler *eh)
       herror("recv");
     } else if (len == 0) {
       printf("disconnect\n");
+      if (eh->in.close)
+        eh->in.close(eh);
       buh_event_close(eh);
       return 0;
     }

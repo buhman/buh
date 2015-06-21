@@ -2,6 +2,8 @@
 
 #include <stdint.h>
 
+#include <sys/epoll.h>
+
 #include <buh/vector.h>
 
 /**
@@ -36,6 +38,7 @@ typedef struct event_handler {
   struct {
     event_handler_fptr *handler;
     event_callback_fptr *recv;
+    event_handler_fptr *close;
   } in;
   /** write */
   struct {

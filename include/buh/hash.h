@@ -1,6 +1,8 @@
+#include <buh/vector.h>
+
 typedef struct hash_entry {
   unsigned long hash;
-  char *key;
+  const char *key;
   void *value;
 } hash_entry_t;
 
@@ -18,13 +20,16 @@ typedef struct hash_table {
 } hash_table_t;
 
 unsigned long
-hash_str(char *s);
+hash_str(const char *s);
 
 void
-hash_add(hash_table_t *ht, char *key, void *value);
+hash_put(hash_table_t *ht, const char *key, void *value);
 
 void
 hash_rehash(hash_table_t *ht, size_t old);
 
 void *
-hash_get(hash_table_t *ht, char *key);
+hash_get(hash_table_t *ht, const char *key);
+
+void
+hash_remove(hash_table_t *ht, const char *key);
