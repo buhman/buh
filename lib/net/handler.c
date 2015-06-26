@@ -27,14 +27,14 @@ buh_net_recv(event_handler *eh)
         break;
       herror("recv");
     } else if (len == 0) {
-      printf("disconnect\n");
+      fprintf(stderr, "%d disconnect\n", eh->sfd);
       if (eh->in.close)
         eh->in.close(eh);
       buh_event_close(eh);
       return 0;
     }
 
-    fprintf(stderr, "recv: %zd\n", len);
+    fprintf(stderr, "%d recv: %zd\n", eh->sfd, len);
     ret = eh->in.recv(eh, buf, len);
     if (ret < 0) /* FIXME */
       return -1;
@@ -53,7 +53,7 @@ buh_net_send(event_handler *eh)
   vec_foreach(index, buf, eh->out.queue) {
 
     ret = send(eh->sfd, buf->ptr, buf->size, 0);
-    fprintf(stderr, "send: %zd\n", buf->size);
+    fprintf(stderr, "%d send: %zd\n", eh->sfd, buf->size);
     if (ret < 0) {
       if (errno == EAGAIN || errno == EWOULDBLOCK) {
         vec_buf_slide(&eh->out.queue, index);

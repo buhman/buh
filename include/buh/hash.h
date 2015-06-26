@@ -33,3 +33,15 @@ hash_get(hash_table_t *ht, const char *key);
 
 void
 hash_remove(hash_table_t *ht, const char *key);
+
+typedef struct hash_iter {
+  unsigned long hash;
+  hash_bucket_t *bu;
+  hash_entry_t *en;
+} hash_iter_t;
+
+void
+hash_iter(hash_table_t *ht, const char *key, hash_iter_t *iter);
+
+void *
+hash_next(hash_iter_t *iter);

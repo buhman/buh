@@ -63,5 +63,10 @@
 
 #define vec_foreach(index, iter, vec)           \
   for (index = 0, iter = (vec).items;           \
-       index < (vec).count;                     \
+       iter < (vec).items + (vec).count;        \
        ++index, ++iter)
+
+#define vec_iforeach(iter, vec)                 \
+  for (iter = (vec).items;                      \
+       iter < (vec).items + (vec).count;        \
+       ++iter)

@@ -34,7 +34,6 @@ hash_put(hash_table_t *ht, const char *key, void *value)
   bu = ht->bucket.items + hash % ht->bucket.size;
 
   en = vec_entry_push(bu);
-  /* fixme? key might not be valid later -- should probably strcpy */
   en->key = key;
   en->hash = hash;
   en->value = value;
@@ -74,7 +73,7 @@ hash_rehash(hash_table_t *ht, size_t old)
 void *
 hash_get(hash_table_t *ht, const char *key)
 {
-  unsigned long hash, i;
+  unsigned long hash;
   hash_bucket_t *bu;
   hash_entry_t *en;
 
@@ -84,10 +83,28 @@ hash_get(hash_table_t *ht, const char *key)
   hash = hash_str(key);
   bu = ht->bucket.items + (hash % ht->bucket.size);
 
-  vec_foreach(i, en, *bu) {
+  vec_iforeach(en, *bu) {
     if (hash == en->hash) /* fixme? && strcmp(key, en->key) == 0) */
       return en->value;
   }
+
+  return NULL;
+}
+
+void
+hash_iter(hash_table_t *ht, const char *key, hash_iter_t *iter)
+{
+  iter->hash = hash_str(key);
+  iter->bu = ht->bucket.items + (iter->hash % ht->bucket.size);
+  iter->en = iter->bu->items;
+}
+
+void *
+hash_next(hash_iter_t *iter)
+{
+  for (; iter->en < iter->bu->items + iter->bu->count; ++iter->en)
+    if (iter->hash == iter->en->hash)
+      return iter->en->value;
 
   return NULL;
 }

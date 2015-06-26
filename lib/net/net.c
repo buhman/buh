@@ -202,7 +202,7 @@ buh_connect_inet(int efd, const char *node, const char *service,
     }
 
     ret = connect(sfd, resi->ai_addr, resi->ai_addrlen);
-    if (ret >= 0)
+    if (ret >= 0 || errno == EINPROGRESS)
       break;
 
     perror("connect");
