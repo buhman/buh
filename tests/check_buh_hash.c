@@ -9,6 +9,7 @@
 static int data_size = 1000;
 static char **keys;
 static char **values;
+static hash_table_t ht = {0};
 
 static void
 init_data(void)
@@ -31,9 +32,9 @@ init_data(void)
   }
 }
 
-START_TEST (buh_check_hash)
+static void
+buh_build_hash(void)
 {
-  hash_table_t ht = {0};
   char **ki, **vi, *v;
 
   for (ki = keys, vi = values;
@@ -42,6 +43,8 @@ START_TEST (buh_check_hash)
 
     hash_put(&ht, *ki, *vi);
   }
+
+  hash_dump(&ht);
 
   for (ki = keys, vi = values;
        ki < keys + data_size;
@@ -52,19 +55,41 @@ START_TEST (buh_check_hash)
     assert(strcmp(v, *vi) == 0);
   }
 }
-END_TEST
+
+static void
+buh_remove_hash(void)
+{
+  char **ki;
+
+  for (ki = keys; ki < keys + data_size; ++ki) {
+
+    assert(hash_get(&ht, *ki) != NULL);
+
+    hash_remove(&ht, *ki);
+
+    assert(hash_get(&ht, *ki) == NULL);
+  }
+}
 
 int
 main(int argc, char **argv)
 {
+  /*
   Suite *s = suite_create("BUH");
   TCase *tc = tcase_create("buh");
-  tcase_add_test(tc, buh_check_hash);
+  tcase_add_test(tc, buh_build_hash);
+  tcase_add_test(tc, buh_remove_hash);
   suite_add_tcase(s, tc);
+  */
 
   init_data();
 
+  buh_build_hash();
+  buh_remove_hash();
+
+  /*
   BUH_RUN();
+  */
 
   char **ki, **vi;
   for (ki = keys, vi = values;
