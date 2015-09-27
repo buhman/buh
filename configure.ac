@@ -13,6 +13,7 @@ AM_SILENT_RULES([yes])
 
 # CC
 
+CFLAGS="-O0 -g"
 AC_PROG_CC
 AC_GNU_SOURCE
 
@@ -23,7 +24,7 @@ AC_GNU_SOURCE
 #### compiler flags ####
 
 AX_APPEND_COMPILE_FLAGS(
-        [-Wall -W -Wextra -pipe -Wno-long-long -Wno-overlength-strings -Wunsafe-loop-optimizations -Wundef -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing -Wwrite-strings -Wno-unused-parameter -Wno-error=unused-function -ffast-math -fno-common -fdiagnostics-show-option],
+        [-Wall -W -Wextra -pipe -Wno-long-long -Wno-overlength-strings -Wunsafe-loop-optimizations -Wundef -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wcast-align -Wstrict-aliasing -Wwrite-strings -Wno-unused-parameter -Wno-error=unused-function -ffast-math -fno-common -fdiagnostics-show-option],
         [], [-pedantic -pedantic-errors -Werror])
 
 #### libtool ####
@@ -36,11 +37,16 @@ LT_INIT([dlopen disable-static])
 AC_HEADER_STDC
 AC_CHECK_HEADERS([sys/socket.h sys/epoll.h])
 
+# unit tests
+
+PKG_CHECK_MODULES(LIBCHECK, [check])
+
 #
 
 AC_CONFIG_FILES([
 Makefile
 lib/Makefile
+tests/Makefile
 ])
 
 AC_OUTPUT

@@ -48,6 +48,7 @@ libtool
 ltmain.sh
 m4
 stamp-h1
+build-aux
 
 # dots
 .*
@@ -57,3 +58,10 @@ version.h
 # doxygen
 doc/*
 !doc/Doxyfile
+
+# check
+*.log
+*.trs
+
+# clang
+*.plist
