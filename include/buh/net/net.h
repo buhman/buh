@@ -1,6 +1,6 @@
 #pragma once
 
-#include <buh/net/event.h>
+#include "buh/net/event.h"
 
 /**
  * @defgroup net net

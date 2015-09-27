@@ -12,9 +12,9 @@
 #include <sys/socket.h>
 #include <netdb.h>
 
-#include <buh/buh.h>
-#include <buh/net/net.h>
-#include <buh/net/event.h>
+#include "buh/buh.h"
+#include "buh/net/net.h"
+#include "buh/net/event.h"
 
 /**
  * @ingroup net

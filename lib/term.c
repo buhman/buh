@@ -2,8 +2,8 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include <buh/buh.h>
-#include <buh/term.h>
+#include "buh/buh.h"
+#include "buh/term.h"
 
 /**
  * @ingroup term

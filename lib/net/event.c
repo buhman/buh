@@ -3,10 +3,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include <buh/buh.h>
-#include <buh/vector.h>
-#include <buh/net/event.h>
-#include <buh/net/handler.h>
+#include "buh/buh.h"
+#include "buh/vector.h"
+#include "buh/net/event.h"
+#include "buh/net/handler.h"
 
 vec_define(buf_t, buf);
 

@@ -2,9 +2,9 @@
 
 #include <sys/epoll.h>
 
-#include <buh/buh.h>
-#include <buh/net/event.h>
-#include <buh/net/queue.h>
+#include "buh/buh.h"
+#include "buh/net/event.h"
+#include "buh/net/queue.h"
 
 int
 buh_net_queue_send(event_handler *eh, void *ptr, size_t size)

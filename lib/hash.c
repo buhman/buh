@@ -1,5 +1,5 @@
-#include <buh/vector.h>
-#include <buh/hash.h>
+#include "buh/vector.h"
+#include "buh/hash.h"
 
 vec_define(hash_entry_t, entry);
 vec_define(hash_bucket_t, bucket);

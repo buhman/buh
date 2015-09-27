@@ -1,6 +1,6 @@
 #pragma once
 
-#include <buh/net/event.h>
+#include "buh/net/event.h"
 
 int
 buh_net_recv(event_handler *eh);
