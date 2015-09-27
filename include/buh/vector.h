@@ -50,11 +50,18 @@
   inline void                                                           \
   vec_##name##_splice(vec_##name##_t *vec, size_t index)                \
   {                                                                     \
-    if (index < vec->count) {                                           \
+    if (index + 1 < vec->count) {                                       \
       memmove(vec->items + index, vec->items + index + 1,               \
               sizeof (T) * (vec->count - index));                       \
-      vec->count--;                                                     \
     }                                                                   \
+    vec->count--;                                                       \
+  }                                                                     \
+                                                                        \
+  inline void                                                           \
+  vec_##name##_free(vec_##name##_t *vec)                                \
+  {                                                                     \
+    if (vec->items)                                                     \
+      free(vec->items);                                                 \
   }
 
 

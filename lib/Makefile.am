@@ -1,7 +1,7 @@
 lib_LTLIBRARIES = libbuh.la
 
 libbuh_la_CFLAGS = \
-	-I ../include
+	-I../include
 
 libbuh_la_SOURCES = \
 	buh.h \

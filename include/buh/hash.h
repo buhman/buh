@@ -19,6 +19,9 @@ typedef struct hash_table {
   size_t item_count; /* total item count */
 } hash_table_t;
 
+void
+hash_dump(hash_table_t *ht);
+
 unsigned long
 hash_str(const char *s);
 
@@ -40,7 +43,7 @@ typedef struct hash_iter {
   hash_entry_t *en;
 } hash_iter_t;
 
-void
+int
 hash_iter(hash_table_t *ht, const char *key, hash_iter_t *iter);
 
 void *
