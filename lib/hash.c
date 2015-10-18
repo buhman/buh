@@ -42,7 +42,7 @@ hash_put(hash_table_t *ht, const char *key, void *value)
 
   if (ht->item_count * 1.5 >= ht->bucket.size) {
     old = ht->bucket.size;
-    vec_bucket_resize(&ht->bucket, old ? old << 1 : 32);
+    vec_bucket_resize(&ht->bucket, old ? old << 1 : 16);
     if (old)
       hash_rehash(ht, old);
     else /* new hashtable; zeroize the entire bucket */
@@ -53,7 +53,7 @@ hash_put(hash_table_t *ht, const char *key, void *value)
   bu = ht->bucket.items + hash % ht->bucket.size;
 
   en = vec_entry_push(bu);
-  en->key = key;
+  en->key = strdup(key);
   en->hash = hash;
   en->value = value;
 
@@ -99,7 +99,7 @@ hash_get(hash_table_t *ht, const char *key)
   bu = ht->bucket.items + (hash % ht->bucket.size);
 
   vec_iforeach(en, *bu) {
-    if (hash == en->hash) /* fixme? && strcmp(key, en->key) == 0) */
+    if (hash == en->hash && strcmp(key, en->key) == 0)
       return en->value;
   }
 
@@ -149,6 +149,7 @@ hash_remove(hash_table_t *ht, const char *key)
 
   vec_foreach(index, en, *bu) {
     if (hash == en->hash && strcmp(key, en->key) == 0) {
+      free(en->key);
       vec_entry_splice(bu, index);
       ht->item_count--;
       break;

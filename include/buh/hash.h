@@ -2,7 +2,7 @@
 
 typedef struct hash_entry {
   unsigned long hash;
-  const char *key;
+  char *key;
   void *value;
 } hash_entry_t;
 
